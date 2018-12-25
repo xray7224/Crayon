@@ -37,19 +37,22 @@ class Parser {
 private:
   uint32_t line;
   uint32_t column;
-  uint64_t position;
-  std::string const &str;
+  std::string::iterator position;
+  std::string str;
 
   int8_t ParseDigit();
+  // This should maybe take regex?
+  bool TakeWhile(const char*);
   
 public:
-  explicit Parser(std::string const &str) : line{1}, column{1}, position{0}, str{str} {}
+  Parser(std::string);
+  //explicit Parser(std::string init) : line{1}, column{1}, str{init}, position{str.begin()} {}
 
-  std::string Peek();
-  std::string Current();
+  char Peek();
+  char Current();
   void SkipWhitespace();
   bool IsEOF();
-  void Next();
+  void Advance(uint64_t);
   
   std::string ParseNumeric();
 };
